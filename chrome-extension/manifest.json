@@ -1,0 +1,111 @@
+{
+  "manifest_version": 3,
+  "name": "SETU - Cognitive Companion & AI Copilot",
+  "version": "3.4.0",
+  "description": "Reshape any site for how your brain reads: line focus, spoken explanations in 11 languages, mind maps, and an AI page agent.",
+  "minimum_chrome_version": "116",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "contextMenus",
+    "alarms"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "SETU",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "shared/setu-config.js",
+        "shared/setu-core.js",
+        "content/main.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icons/*",
+        "camera/frame.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "commands": {
+    "toggle-bionic": {
+      "suggested_key": {
+        "default": "Alt+B"
+      },
+      "description": "Toggle Bionic Reading"
+    },
+    "toggle-focus": {
+      "suggested_key": {
+        "default": "Alt+F"
+      },
+      "description": "Toggle Focus Mode"
+    },
+    "toggle-linefocus": {
+      "suggested_key": {
+        "default": "Alt+L"
+      },
+      "description": "Toggle Line Focus"
+    },
+    "open-commander": {
+      "suggested_key": {
+        "default": "Alt+Shift+C"
+      },
+      "description": "Open SETU Commander"
+    },
+    "toggle-tts": {
+      "description": "Toggle Explain This (Alt+T on the page)"
+    },
+    "toggle-ruler": {
+      "description": "Toggle Reading Ruler (Alt+H on the page)"
+    },
+    "explain-visual": {
+      "description": "Map a chart, image or section (Alt+M on the page)"
+    },
+    "chunk-page": {
+      "description": "Break this page into 3 steps (Alt+3 on the page)"
+    },
+    "reset-all": {
+      "description": "Turn every SETU feature off (Alt+X on the page)"
+    }
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

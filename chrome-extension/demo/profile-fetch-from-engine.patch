@@ -1,0 +1,74 @@
+diff --git a/chrome-extension/shared/setu-profile.js b/chrome-extension/shared/setu-profile.js
+index 8b89486..6bafb9a 100644
+--- a/chrome-extension/shared/setu-profile.js
++++ b/chrome-extension/shared/setu-profile.js
+@@ -1178,6 +1178,50 @@
+    * Returns derived values, because every caller wants `fullName` and `age`
+    * and none of them should be recomputing those themselves.
+    */
++  /**
++   * Fetch the profile the engine holds for this install.
++   *
++   * Runs only when local storage has nothing: a fresh install, a second laptop,
++   * a re-added extension. It is what makes saved details survive anything other
++   * than the one browser they were typed into.
++   *
++   * Goes through the worker's `apiFetch` when there is a worker to ask. A
++   * content script inherits the page's origin and CSP, and a direct fetch to
++   * the engine is blocked outright on many sites. Inside the worker itself
++   * there is nothing to message, so it falls through to a direct fetch.
++   *
++   * Every failure path returns null and the caller drops to the built-in
++   * sample. An engine that is asleep, unreachable, or holds no profile for this
++   * user must never leave the agent with no details at all.
++   */
++  async function fetchFromEngine() {
++    try {
++      if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage && !self.__setuIsWorker) {
++        const res = await chrome.runtime.sendMessage({
++          action: 'apiFetch',
++          method: 'GET',
++          path: '/api/profile'
++        });
++        return res && res.ok && res.data && res.data.profile ? res.data.profile : null;
++      }
++
++      const sync = await chrome.storage.sync.get('apiHost');
++      const base = (sync && sync.apiHost) || (self.SETU_DEFAULTS && self.SETU_DEFAULTS.apiHost);
++      if (!base) return null;
++
++      const local = await chrome.storage.local.get('installId');
++      const res = await fetch(base + '/api/profile', {
++        headers: local && local.installId ? { 'x-user-id': local.installId } : {}
++      });
++      if (!res.ok) return null;
++
++      const data = await res.json();
++      return data && data.profile ? data.profile : null;
++    } catch (_) {
++      return null;
++    }
++  }
++
+   async function load() {
+     let stored = null;
+     try {
+@@ -1188,7 +1232,17 @@
+     }
+ 
+     if (!stored) {
+-      const seeded = sampleProfile();
++      /*
++       * Nothing stored locally. Ask the engine before falling back to the
++       * sample, so a second machine picks up details entered once rather than
++       * starting from an invented applicant.
++       *
++       * Whatever comes back is cached locally and every later read is local, so
++       * the form-filling path stays offline-capable and the placeholder
++       * substitution still happens in the page rather than in a prompt.
++       */
++      const fromEngine = await fetchFromEngine();
++      const seeded = fromEngine ? normalise(fromEngine) : sampleProfile();
+       // Best-effort: an install that cannot write storage should still get a
+       // working profile in memory rather than an empty one.
+       try {

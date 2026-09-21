@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SETU — Cognitive Companion</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <!-- ============ MASTHEAD ============ -->
+  <header class="top">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M3 17c3-6 6-9 9-9s6 3 9 9" />
+          <circle cx="12" cy="8" r="1.6" fill="currentColor" stroke="none" />
+        </svg>
+      </span>
+      <div class="brand-titles">
+        <div class="brand-row">
+          <h1>SETU</h1>
+          <span class="version-tag">v3.1</span>
+        </div>
+        <p class="tag">Lens &amp; Copilot</p>
+      </div>
+    </div>
+    <div class="top-controls">
+      <button class="active-badge" id="active-count" type="button" hidden title="Click to turn all tools off">
+        <span class="active-dot"></span>
+        <span id="active-count-text">0 active</span>
+      </button>
+      <button class="engine" id="engine" type="button" title="Engine status — click to re-check">
+        <span class="dot"></span>
+        <span id="engine-label">checking</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Context warning banner (when content script cannot run on current tab) -->
+  <div class="banner" id="banner" hidden>
+    <span class="banner-icon" data-icon="warning" aria-hidden="true"></span>
+    <p id="banner-text"></p>
+    <button class="banner-act" id="banner-act" type="button" hidden></button>
+  </div>
+
+  <main class="scroll">
+    <!-- ============ AI COPILOT & ACTIONS ============ -->
+    <section class="block">
+      <div class="section-head">
+        <h2 class="kicker">Ask SETU</h2>
+        <span class="kicker-sub">On-demand AI assistance</span>
+      </div>
+
+      <!-- Hero AI Commander -->
+      <button class="hero" id="act-commander" type="button" aria-label="Open SETU Commander (Alt+Shift+C)">
+        <span class="hero-icon" data-icon="robot" aria-hidden="true"></span>
+        <div class="hero-text">
+          <strong>Open Commander</strong>
+          <small>Ask questions, navigate, or fill forms on this page</small>
+        </div>
+        <kbd class="hero-kbd" data-shortcut="commander">Alt+Shift+C</kbd>
+      </button>
+
+      <!-- 3-Action Quick Grid -->
+      <div class="grid-3">
+        <button class="tile" id="act-chunk" type="button" title="Break this page into 3 simple steps (Alt+3)">
+          <span class="tile-icon" data-icon="list-checks" aria-hidden="true"></span>
+          <span class="tile-label">3-step path</span>
+        </button>
+        <button class="tile" id="act-visual" type="button" title="Turn any chart, table, image or section into a mind map (Alt+M)">
+          <span class="tile-icon" data-icon="tree-structure" aria-hidden="true"></span>
+          <span class="tile-label">Map this</span>
+        </button>
+        <button class="tile" id="act-sanctuary" type="button" title="Send page to your Sanctuary workspace as a mind map">
+          <span class="tile-icon" data-icon="arrow-square-in" aria-hidden="true"></span>
+          <span class="tile-label">To Sanctuary</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ READING TOOLS ============ -->
+    <section class="block">
+      <div class="section-head">
+        <h2 class="kicker">Reading tools</h2>
+        <span class="kicker-sub">Cognitive accessibility layer</span>
+      </div>
+
+      <div class="grid-2" id="tools" role="group" aria-label="Reading tools">
+        <button class="tool" data-feature="bionic" type="button" aria-pressed="false">
+          <span class="tool-icon" data-icon="text-aa" aria-hidden="true"></span>
+          <div class="tool-content">
+            <span class="tool-name">Bionic Reading</span>
+            <span class="tool-desc">Fixation anchors</span>
+          </div>
+          <span class="tool-key" data-shortcut="bionic">Alt+B</span>
+        </button>
+
+        <button class="tool" data-feature="lineFocus" type="button" aria-pressed="false">
+          <span class="tool-icon" data-icon="rows" aria-hidden="true"></span>
+          <div class="tool-content">
+            <span class="tool-name">Line Focus</span>
+            <span class="tool-desc">Isolate lines</span>
+          </div>
+          <span class="tool-key" data-shortcut="lineFocus">Alt+L</span>
+        </button>
+
+        <button class="tool" data-feature="highlight" type="button" aria-pressed="false">
+          <span class="tool-icon" data-icon="ruler" aria-hidden="true"></span>
+          <div class="tool-content">
+            <span class="tool-name">Reading Ruler</span>
+            <span class="tool-desc">Follows cursor</span>
+          </div>
+          <span class="tool-key" data-shortcut="highlight">Alt+H</span>
+        </button>
+
+        <button class="tool" data-feature="focus" type="button" aria-pressed="false">
+          <span class="tool-icon" data-icon="crosshair" aria-hidden="true"></span>
+          <div class="tool-content">
+            <span class="tool-name">Focus Mode</span>
+            <span class="tool-desc">Sensory reader</span>
+          </div>
+          <span class="tool-key" data-shortcut="focus">Alt+F</span>
+        </button>
+
+        <button class="tool" data-feature="tts" type="button" aria-pressed="false">
+          <span class="tool-icon" data-icon="speaker-high" aria-hidden="true"></span>
+          <div class="tool-content">
+            <span class="tool-name">Explain This</span>
+            <span class="tool-desc">In your language</span>
+          </div>
+          <span class="tool-key" data-shortcut="tts">Alt+T</span>
+        </button>
+
+        <button class="tool" data-feature="scroll" type="button" aria-pressed="false">
+          <span class="tool-icon" data-icon="arrows-down-up" aria-hidden="true"></span>
+          <div class="tool-content">
+            <span class="tool-name">Auto Scroll</span>
+            <span class="tool-desc">Glide at WPM</span>
+          </div>
+          <span class="tool-key" data-shortcut="scroll">Alt+S</span>
+        </button>
+
+        <button class="tool" data-feature="eye" type="button" aria-pressed="false">
+          <span class="tool-icon" data-icon="eye" aria-hidden="true"></span>
+          <div class="tool-content">
+            <span class="tool-name">Gaze Scroll</span>
+            <span class="tool-desc">Head tracking</span>
+          </div>
+          <span class="tool-key" data-shortcut="eye">Alt+E</span>
+        </button>
+
+        <button class="tool" data-feature="breathe" type="button" aria-pressed="false">
+          <span class="tool-icon" data-icon="wind" aria-hidden="true"></span>
+          <div class="tool-content">
+            <span class="tool-name">Breathe Protocol</span>
+            <span class="tool-desc">Overwhelm shield</span>
+          </div>
+          <span class="tool-key">auto</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ READING THEMES ============ -->
+    <section class="block">
+      <div class="section-head">
+        <h2 class="kicker">Reading theme</h2>
+        <span class="kicker-sub">Visual comfort palette</span>
+      </div>
+
+      <div class="themes" id="themes" role="radiogroup" aria-label="Reading theme">
+        <button class="theme-chip" data-theme="default" role="radio" aria-checked="true" style="--sw:#f3f2f2;--sf:#201e1d" type="button">
+          <span class="swatch"></span>
+          <span class="t-name">Paper</span>
+        </button>
+        <button class="theme-chip" data-theme="sepia" role="radio" aria-checked="false" style="--sw:#f6ecd9;--sf:#3b3226" type="button">
+          <span class="swatch"></span>
+          <span class="t-name">Sepia</span>
+        </button>
+        <button class="theme-chip" data-theme="dark" role="radio" aria-checked="false" style="--sw:#18181a;--sf:#f3f2f2" type="button">
+          <span class="swatch"></span>
+          <span class="t-name">Velvet</span>
+        </button>
+        <button class="theme-chip" data-theme="calm" role="radio" aria-checked="false" style="--sw:#f2f6f1;--sf:#1c2b1d" type="button">
+          <span class="swatch"></span>
+          <span class="t-name">Sage</span>
+        </button>
+        <button class="theme-chip" data-theme="pastel" role="radio" aria-checked="false" style="--sw:#f0f4f8;--sf:#1e293b" type="button">
+          <span class="swatch"></span>
+          <span class="t-name">Pastel</span>
+        </button>
+        <button class="theme-chip" data-theme="contrast" role="radio" aria-checked="false" style="--sw:#0d0d0d;--sf:#facc15" type="button">
+          <span class="swatch"></span>
+          <span class="t-name">AAA</span>
+        </button>
+        <button class="theme-chip" data-theme="dyslexia" role="radio" aria-checked="false" style="--sw:#faf7ee;--sf:#26231e" type="button">
+          <span class="swatch"></span>
+          <span class="t-name">Dyslexia</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ LIVE INTERACTIVE SAMPLE ============ -->
+    <section class="block preview-block">
+      <div class="section-head">
+        <h2 class="kicker">Live preview</h2>
+        <span class="kicker-sub">Real-time sensory response</span>
+      </div>
+      <div class="sample-box" id="sample-box">
+        <p id="sample-text">
+          <b class="bionic-fixation">Att</b>ention <b class="bionic-fixation">is</b> <b class="bionic-fixation">th</b>e <b class="bionic-fixation">pa</b>rt <b class="bionic-fixation">th</b>at <b class="bionic-fixation">chan</b>ged <b class="bionic-fixation">every</b>thing. <b class="bionic-fixation">Ins</b>tead <b class="bionic-fixation">of</b> <b class="bionic-fixation">survi</b>ving <b class="bionic-fixation">a</b> <b class="bionic-fixation">wa</b>ll <b class="bionic-fixation">of</b> <b class="bionic-fixation">te</b>xt, <b class="bionic-fixation">wo</b>rds <b class="bionic-fixation">ho</b>ld <b class="bionic-fixation">st</b>ill.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ FINE-TUNING ============ -->
+    <details class="block details" id="tuning-details">
+      <summary>
+        <div class="summary-left">
+          <h2 class="kicker">Fine-tuning</h2>
+          <span class="kicker-sub">Adjust paces &amp; spacing</span>
+        </div>
+        <span class="caret" data-icon="caret-down" aria-hidden="true"></span>
+      </summary>
+
+      <div class="sliders-list">
+        <label class="slider-item">
+          <div class="slider-header">
+            <span>Bionic fixation strength</span>
+            <b class="slider-val" id="v-bionic">45%</b>
+          </div>
+          <input type="range" id="s-bionic" min="25" max="70" step="5" value="45" />
+        </label>
+
+        <label class="slider-item">
+          <div class="slider-header">
+            <span>Auto-scroll pace</span>
+            <b class="slider-val" id="v-wpm">220 wpm</b>
+          </div>
+          <input type="range" id="s-wpm" min="60" max="800" step="20" value="220" />
+        </label>
+
+        <label class="slider-item">
+          <div class="slider-header">
+            <span>Speech rate</span>
+            <b class="slider-val" id="v-rate">1.0×</b>
+          </div>
+          <input type="range" id="s-rate" min="5" max="25" step="1" value="10" />
+        </label>
+
+        <label class="slider-item">
+          <div class="slider-header">
+            <span>Letter spacing</span>
+            <b class="slider-val" id="v-spacing">0.12em</b>
+          </div>
+          <input type="range" id="s-spacing" min="0" max="30" step="1" value="12" />
+        </label>
+      </div>
+
+      <div class="tuning-footer">
+        <p class="note">
+          AI backend URL, voice models &amp; language live in
+          <button class="linkish" id="act-options" type="button">SETU Settings</button>.
+        </p>
+      </div>
+    </details>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="bottom">
+    <button class="ghost" id="act-reset" type="button" title="Turn every active reading tool off">
+      <span data-icon="power" aria-hidden="true"></span>
+      <span>Turn all off</span>
+    </button>
+    <button class="ghost primary-ghost" id="act-open-web" type="button" title="Open SETU Sanctuary workspace">
+      <span data-icon="arrow-square-out" aria-hidden="true"></span>
+      <span>Sanctuary</span>
+    </button>
+  </footer>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../shared/setu-config.js"></script>
+  <script src="../shared/setu-icons.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

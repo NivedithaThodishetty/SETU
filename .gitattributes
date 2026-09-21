@@ -1,0 +1,50 @@
+# Normalise line endings in the repository to LF.
+#
+# Without this file, a clone on Windows with the common `core.autocrlf=true`
+# gets CRLF working-tree files, and anything that reads source as text and
+# anchors a pattern on "\n" silently stops matching. That is not hypothetical
+# here: chrome-extension/test/agent.test.js extracted two constants with a regex
+# ending in `;\n`, matched nothing on a Windows checkout, and threw before its
+# first assertion — so the whole extension suite was red locally and green in
+# CI, which is the failure mode that wastes the most time.
+#
+# `text=auto eol=lf` stores LF in the object database and checks out LF on every
+# platform, so every developer and CI runner reads the same bytes.
+
+* text=auto eol=lf
+
+# Binary assets must never be touched. Listing them explicitly is cheaper than
+# debugging a corrupted PNG that git "helpfully" normalised.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.webp  binary
+*.pdf   binary
+*.zip   binary
+*.crx   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+*.eot   binary
+*.mp3   binary
+*.mp4   binary
+*.wav   binary
+*.webm  binary
+*.pptx  binary
+*.docx  binary
+*.xlsx  binary
+
+# Lockfiles are generated. Collapsing them in diffs keeps a dependency bump from
+# burying the change that actually needs review.
+package-lock.json linguist-generated=true -diff
+
+# Windows-only scripts genuinely need CRLF; forcing LF breaks them.
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+
+# Shell scripts must stay LF even on Windows, or the shebang line carries a
+# stray CR and the interpreter is reported as not found.
+*.sh    text eol=lf

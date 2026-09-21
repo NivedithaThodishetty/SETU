@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Allow the camera — SETU</title>
+    <style>
+      :root {
+        --bg: #f3f2f2;
+        --surface: #ffffff;
+        --text: #201e1d;
+        --text-dim: rgba(32, 30, 29, 0.62);
+        --border: rgba(32, 30, 29, 0.16);
+        --accent: #0088b0;
+        --accent-100: #e0f4fa;
+        --accent-700: #00607d;
+        --accent-900: #003648;
+        --on-accent: #f3f2f2;
+        --ok: #0f7a4d;
+        --danger: #d6006c;
+        --font: 'Source Serif 4', Georgia, serif;
+      }
+
+      [data-appearance='dark'] {
+        --bg: #18181a;
+        --surface: #222226;
+        --text: #f3f2f2;
+        --text-dim: rgba(243, 242, 242, 0.66);
+        --border: rgba(243, 242, 242, 0.15);
+        --accent: #38bdf8;
+        --accent-100: rgba(56, 189, 248, 0.15);
+        --accent-700: #7dd3fc;
+        --accent-900: #bae6fd;
+        --on-accent: #18181a;
+        --ok: #4ade80;
+        --danger: #fb7185;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 16px;
+        line-height: 1.6;
+        display: grid;
+        place-items: start center;
+        min-height: 100vh;
+        padding: 56px 24px;
+      }
+
+      main {
+        width: min(620px, 100%);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        box-shadow: 0 8px 24px rgba(32, 30, 29, 0.1);
+        padding: 40px;
+      }
+
+      .kicker {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent-700);
+      }
+
+      h1 {
+        font-size: 28px;
+        line-height: 1.25;
+        margin: 10px 0 20px;
+      }
+
+      p {
+        margin-bottom: 15px;
+        color: var(--text-dim);
+      }
+
+      p strong {
+        color: var(--text);
+      }
+
+      ul {
+        margin: 0 0 20px 20px;
+        color: var(--text-dim);
+      }
+
+      li {
+        margin-bottom: 6px;
+      }
+
+      .row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 25px;
+      }
+
+      button {
+        min-height: 44px;
+        padding: 10px 22px;
+        border-radius: 3px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      button[data-variant='primary'] {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--on-accent);
+      }
+
+      button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      button[disabled] {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      .status {
+        margin-top: 22px;
+        padding: 14px 16px;
+        border-radius: 3px;
+        border: 1px solid var(--border);
+        border-left: 3.5px solid var(--accent);
+        background: var(--accent-100);
+        font-size: 15px;
+        color: var(--accent-900);
+        display: none;
+      }
+
+      .status[data-show='true'] {
+        display: block;
+      }
+
+      .status[data-tone='error'] {
+        border-left-color: var(--danger);
+        background: transparent;
+        color: var(--danger);
+      }
+
+      .status[data-tone='ok'] {
+        border-left-color: var(--ok);
+      }
+
+      video {
+        width: 100%;
+        max-width: 320px;
+        margin-top: 22px;
+        border-radius: 3px;
+        border: 1px solid var(--border);
+        transform: scaleX(-1);
+        display: none;
+        background: #000;
+      }
+
+      video[data-show='true'] {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <span class="kicker">Gaze Scroll</span>
+      <h1>Let SETU use your camera, once</h1>
+
+      <p>
+        Gaze Scroll moves the page as you move your head, so you can read without a mouse or a
+        keyboard. To do that it needs to see you.
+      </p>
+
+      <p>
+        Granting it <strong>here</strong> grants it to SETU itself, so it works on every site
+        afterwards and you are never asked again. Granting it on an individual website only ever
+        worked on that one website — which is why it kept being blocked.
+      </p>
+
+      <ul>
+        <li>Video is measured in the browser and thrown away, frame by frame.</li>
+        <li>No image, video, or recording is stored, uploaded, or sent anywhere.</li>
+        <li>The camera only runs while Gaze Scroll is switched on.</li>
+        <li>You can withdraw this at any time from the camera icon in the address bar.</li>
+      </ul>
+
+      <div class="row">
+        <button data-variant="primary" data-act="grant" type="button">Allow the camera</button>
+        <button data-act="close" type="button">Not now</button>
+      </div>
+
+      <p class="status" data-show="false" role="status" aria-live="polite"></p>
+      <video playsinline muted autoplay data-show="false"></video>
+    </main>
+
+    <script src="../shared/setu-config.js"></script>
+    <script src="permission.js"></script>
+  </body>
+</html>

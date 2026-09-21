@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SETU — Settings &amp; Connection</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <main class="page">
+    <!-- ============ MASTHEAD ============ -->
+    <header class="masthead">
+      <div class="masthead-brand">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <path d="M3 17c3-6 6-9 9-9s6 3 9 9" />
+            <circle cx="12" cy="8" r="1.6" fill="currentColor" stroke="none" />
+          </svg>
+        </span>
+        <div>
+          <h1>SETU</h1>
+          <p class="sub">Settings &amp; Connection · <span id="version"></span></p>
+        </div>
+      </div>
+      <div class="masthead-actions">
+        <a class="btn ghost" id="open-sanctuary-link" href="#" target="_blank" rel="noopener">
+          <span data-icon="arrow-square-out" aria-hidden="true"></span>
+          <span>Open Sanctuary</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- ============ READING DEFAULTS ============ -->
+    <section class="card">
+      <div class="card-head">
+        <span class="card-kicker">Cognitive Layer</span>
+        <h2>Reading &amp; Accessibility Defaults</h2>
+      </div>
+      <p class="lede">
+        These preferences apply across every website you visit. The popup can also fine-tune them per tab.
+      </p>
+
+      <!-- Appearance -->
+      <div class="field">
+        <span class="field-label"><span>Appearance</span></span>
+        <div class="chips" id="appearance" role="radiogroup" aria-label="Appearance">
+          <button class="chip" data-appearance-choice="light" role="radio" aria-checked="true" type="button">Light</button>
+          <button class="chip" data-appearance-choice="dark" role="radio" aria-checked="false" type="button">Dark</button>
+          <button class="chip" data-appearance-choice="auto" role="radio" aria-checked="false" type="button">Match system</button>
+        </div>
+        <small class="help">
+          Applies to SETU's own panels — the popup, this page, and the Commander.
+          Light by default, like the Sanctuary workspace. The reading themes below
+          restyle the <em>page</em> you are reading, which is a separate choice.
+        </small>
+      </div>
+
+      <!-- Language -->
+      <label class="field">
+        <span class="field-label">
+          <span>Explain things in</span>
+          <b id="v-language">English</b>
+        </span>
+        <select id="language" aria-label="Language for explanations and speech"></select>
+        <small class="help">
+          One choice, used everywhere: spoken explanations, mind-map labels, chart breakdowns,
+          summaries and the Copilot's answers. Eleven Indian languages plus English — the set the
+          natural voice can actually speak, so anything SETU writes for you can also be read to
+          you. This is the same setting as the voice language below.
+        </small>
+      </label>
+
+      <!-- Sliders -->
+      <div class="sliders-grid">
+        <label class="field slider">
+          <span class="field-label">
+            <span>Bionic fixation strength</span>
+            <b id="v-bionic">45%</b>
+          </span>
+          <input type="range" id="bionic" min="25" max="70" step="5" />
+        </label>
+
+        <label class="field slider">
+          <span class="field-label">
+            <span>Letter spacing</span>
+            <b id="v-spacing">0.12em</b>
+          </span>
+          <input type="range" id="spacing" min="0" max="30" step="1" />
+        </label>
+
+        <label class="field slider">
+          <span class="field-label">
+            <span>Line height</span>
+            <b id="v-line">1.8</b>
+          </span>
+          <input type="range" id="line" min="12" max="26" step="1" />
+        </label>
+
+        <label class="field slider">
+          <span class="field-label">
+            <span>Auto-scroll pace</span>
+            <b id="v-wpm">220 wpm</b>
+          </span>
+          <input type="range" id="wpm" min="60" max="800" step="20" />
+        </label>
+
+        <label class="field slider">
+          <span class="field-label">
+            <span>Speech rate</span>
+            <b id="v-rate">1.0×</b>
+          </span>
+          <input type="range" id="rate" min="5" max="25" step="1" />
+        </label>
+
+        <label class="field slider">
+          <span class="field-label">
+            <span>Gaze scroll sensitivity</span>
+            <b id="v-gaze">1.0×</b>
+          </span>
+          <input type="range" id="gaze" min="3" max="25" step="1" />
+        </label>
+      </div>
+
+      <!-- Explain This voice -->
+      <div class="field">
+        <span class="field-label">
+          <span>Explain This voice</span>
+          <b id="v-voice">checking…</b>
+        </span>
+        <div class="voice-grid">
+          <select id="speaker" aria-label="Explain This voice">
+            <option value="">Engine default</option>
+          </select>
+          <select id="tts-language" aria-label="Explain This language">
+            <option value="en-IN">English</option>
+          </select>
+          <button class="btn" id="preview-voice" type="button">Hear it</button>
+        </div>
+        <small class="help">
+          Natural human voices come from the SETU engine (Sarvam Bulbul) and speak ten Indian
+          languages plus English. SETU both <em>explains</em> and <em>speaks</em> in the language
+          chosen above. Without an engine, explanations still come back in your language and this
+          browser's own voice reads them.
+        </small>
+      </div>
+
+      <div class="field">
+        <span class="field-label"><span>Gaze scroll direction</span></span>
+        <div class="chips" id="gaze-invert" role="radiogroup" aria-label="Gaze scroll direction">
+          <button class="chip" data-gaze-choice="normal" role="radio" aria-checked="true" type="button">
+            Head down scrolls down
+          </button>
+          <button class="chip" data-gaze-choice="inverted" role="radio" aria-checked="false" type="button">
+            Head down scrolls up
+          </button>
+        </div>
+        <small class="help">
+          Gaze Scroll tracks head position, not pupil direction. It calibrates itself to however you
+          are sitting, re-centres as your posture drifts, and holds completely still while you do.
+        </small>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="preview-wrap">
+        <span class="preview-title">Live sample</span>
+        <div class="preview" id="preview">
+          <p>
+            Attention is the part that changed everything. Instead of reading a sentence word by word and hoping to remember the start by the time it reaches the end, the model looks at every word at once and decides which actually matter.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ YOUR DETAILS (FORM FILLING) ============ -->
+    <section class="card">
+      <div class="card-head">
+        <span class="card-kicker">Form Filling</span>
+        <h2>Your details</h2>
+      </div>
+      <p class="lede">
+        Fill this in once and the Copilot can complete forms for you. Ask it to
+        <em>&ldquo;fill this form with my details&rdquo;</em> on any page and it matches every box it
+        recognises &mdash; name, date of birth, address down to the door number, parents, PIN code &mdash;
+        then shows you the list before it types a single character.
+      </p>
+
+      <div class="notice" id="profile-banner" data-show="false" data-tone="warn">
+        <span data-icon="warning" aria-hidden="true"></span>
+        <div>
+          <strong>These are sample details, not yours.</strong>
+          <span>
+            SETU ships with an invented profile so you can see what form filling does. Edit any box
+            below to replace it &mdash; this warning disappears as soon as you do.
+          </span>
+        </div>
+      </div>
+
+      <div class="profile-meter">
+        <div class="profile-meter-head">
+          <span class="field-label"><span>Details saved</span><b id="profile-count">0 of 0</b></span>
+        </div>
+        <div class="meter-track"><div class="meter-fill" id="profile-fill" style="width:0%"></div></div>
+        <small class="help">
+          Everything here is stored on this computer only, in the extension's local storage. It is
+          never synced to your Google account and never sent to the SETU engine or any AI model.
+          When the Copilot plans a form, it tells the engine <em>which</em> details exist &mdash;
+          never what they are &mdash; and puts the real values in on this device.
+        </small>
+      </div>
+
+      <label class="field">
+        <span class="field-label"><span>Find a detail</span></span>
+        <input type="search" id="profile-search" placeholder="e.g. pincode, father, aadhaar" spellcheck="false" />
+      </label>
+
+      <div id="profile-groups" class="profile-groups"></div>
+
+      <div class="diag-actions">
+        <button class="btn ghost" id="profile-restore" type="button">
+          <span data-icon="arrow-counter-clockwise" aria-hidden="true"></span>
+          <span>Restore sample details</span>
+        </button>
+        <button class="btn danger-ghost" id="profile-clear" type="button">
+          <span data-icon="power" aria-hidden="true"></span>
+          <span>Clear my details</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ENGINE CONNECTION ============ -->
+    <section class="card">
+      <div class="card-head">
+        <span class="card-kicker">AI Architecture</span>
+        <h2>SETU Engine &amp; Workspace Connection</h2>
+      </div>
+      <p class="lede">
+        Bionic reading, line focus, reading ruler, and browser speech all run 100% on-device with zero server calls.
+        The AI features — Commander, 3-step paths, visual chart breakdowns, and explanations — connect to your SETU engine.
+      </p>
+
+      <label class="field">
+        <span class="field-label">Engine API Host URL</span>
+        <div class="row">
+          <input type="url" id="api-host" placeholder="https://setu-37hl.onrender.com" spellcheck="false" />
+          <button class="btn" id="test-engine" type="button">
+            <span data-icon="arrow-counter-clockwise" aria-hidden="true"></span>
+            <span>Test Connection</span>
+          </button>
+        </div>
+        <small class="help">
+          Defaults to the hosted engine at <code>https://setu-37hl.onrender.com</code>.
+          Running locally? Use <code>http://localhost:3000</code>.
+        </small>
+      </label>
+
+      <!-- Status Indicator -->
+      <div class="status" id="engine-status" data-state="idle">
+        <span class="status-dot"></span>
+        <div class="status-body">
+          <strong id="engine-headline">Not checked yet</strong>
+          <ul class="status-detail" id="engine-detail"></ul>
+        </div>
+      </div>
+
+      <label class="field">
+        <span class="field-label">Sanctuary Web App URL</span>
+        <input type="url" id="sanctuary-url" placeholder="https://setu-amber.vercel.app" spellcheck="false" />
+        <small class="help">Where "Send page to Sanctuary" opens the interactive mind map workspace.</small>
+      </label>
+    </section>
+
+    <!-- ============ KEYBOARD SHORTCUTS ============ -->
+    <section class="card">
+      <div class="card-head">
+        <span class="card-kicker">Navigation &amp; Control</span>
+        <h2>Keyboard Shortcuts</h2>
+      </div>
+      <p class="lede">
+        Access cognitive tools and the AI commander without taking your hands off the keyboard.
+      </p>
+
+      <ul class="keys" id="keys"></ul>
+
+      <div class="card-actions">
+        <button class="btn ghost" id="edit-shortcuts" type="button">
+          <span data-icon="gear" aria-hidden="true"></span>
+          <span>Configure browser shortcuts…</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ PRIVACY & LOCAL-FIRST ============ -->
+    <section class="card">
+      <div class="card-head">
+        <span class="card-kicker kicker-magenta">Privacy &amp; Safety</span>
+        <h2>What leaves this browser</h2>
+      </div>
+      <ul class="facts">
+        <li>
+          <strong>Reading tools</strong>
+          <span>Bionic text, line focus, reading ruler, themes, auto-scroll and browser speech run entirely on your local device. Zero bytes uploaded.</span>
+        </li>
+        <li>
+          <strong>AI features</strong>
+          <span>When you ask Commander a question, request a 3-step path, or explain a chart, the visible text of the active page (and for charts, an element crop) is sent to your configured engine endpoint.</span>
+        </li>
+        <li>
+          <strong>Gaze tracking</strong>
+          <span>Camera frames are analyzed on an in-memory canvas and immediately discarded. No video is ever recorded, stored, or transmitted.</span>
+        </li>
+        <li>
+          <strong>Your details</strong>
+          <span>
+            Stored in this browser's local storage on this device only &mdash; deliberately not synced
+            to your Google account. Filling a form sends nothing at all. When the Copilot plans a
+            task it tells the engine <em>which</em> details you have saved and never what they are;
+            the real values go into the page here. ID and bank details are never typed without you
+            confirming that exact step.
+          </span>
+        </li>
+        <li>
+          <strong>Zero password exposure</strong>
+          <span>Password fields and sensitive auth tokens are strictly sanitized and never included in page context sent to AI models.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ============ DIAGNOSTICS ============ -->
+    <section class="card">
+      <div class="card-head">
+        <span class="card-kicker">System State</span>
+        <h2>Diagnostics &amp; Storage</h2>
+      </div>
+      <dl class="diag" id="diag"></dl>
+      <div class="diag-actions">
+        <button class="btn danger-ghost" id="reset" type="button">
+          <span data-icon="power" aria-hidden="true"></span>
+          <span>Reset all settings to defaults</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="../shared/setu-config.js"></script>
+  <script src="../shared/setu-profile.js"></script>
+  <script src="../shared/setu-icons.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

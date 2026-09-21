@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SETU camera</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        overflow: hidden;
+      }
+
+      .stage {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* Mirrored, so moving left on screen matches moving left in the room. */
+        transform: scaleX(-1);
+        display: block;
+      }
+
+      .zone,
+      .neutral,
+      .reticle {
+        position: absolute;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+        display: none;
+      }
+
+      /* The deadzone made visible. Without it, "hold still" is an instruction
+         with no feedback — the reader cannot tell whether they are inside the
+         tolerance or one twitch away from the page moving. */
+      .zone {
+        background: rgba(0, 136, 176, 0.24);
+        border-top: 1px solid rgba(0, 136, 176, 0.6);
+        border-bottom: 1px solid rgba(0, 136, 176, 0.6);
+      }
+
+      .neutral {
+        height: 0;
+        border-top: 1px dashed rgba(255, 255, 255, 0.55);
+      }
+
+      .reticle {
+        left: 6%;
+        right: 6%;
+        height: 2px;
+        background: #d6006c;
+        box-shadow: 0 0 9px #d6006c;
+        display: block;
+      }
+
+      .lost {
+        position: absolute;
+        inset: 0;
+        display: none;
+        place-items: center;
+        background: rgba(0, 0, 0, 0.55);
+        color: #fff;
+        font: 700 12px/1.4 Georgia, serif;
+        text-align: center;
+        padding: 8px;
+      }
+
+      .stage[data-lost='true'] .lost {
+        display: grid;
+      }
+
+      .stage[data-calibrated='true'] .zone,
+      .stage[data-calibrated='true'] .neutral {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage" data-lost="false" data-calibrated="false">
+      <video playsinline muted autoplay></video>
+      <div class="zone"></div>
+      <div class="neutral"></div>
+      <div class="reticle" style="top: 50%"></div>
+      <div class="lost">no face in frame</div>
+    </div>
+    <!--
+      Loaded as ordinary subresources of an extension page. Only frame.html
+      itself needs a web_accessible_resources entry — that list governs what a
+      *web page* may reference, and these are fetched by this document from the
+      extension's own origin. Keeping them out of it means a site cannot pull
+      them in and poke at the detector directly.
+    -->
+    <script src="../shared/gaze-detector.js"></script>
+    <script src="frame.js"></script>
+  </body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <style>
+    body { margin: 0; overflow: hidden; }
+    a { color: #a6b0ff; }
+    a:hover { color: #c5cbff; }
+    @keyframes breathe { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+  </style>
+</helmet>
+
+<div style="display: flex; height: 100vh; overflow: hidden; background-color: #0b1020; background-image: radial-gradient(ellipse 70% 50% at 15% -10%, rgba(124, 140, 255, 0.11), transparent), radial-gradient(ellipse 60% 45% at 85% 5%, rgba(74, 222, 128, 0.06), transparent); color: #f1f5f9; font-family: Inter, system-ui, sans-serif; font-size: 16px;">
+
+  <nav aria-label="Main" style="width: 240px; flex: none; display: flex; flex-direction: column; border-right: 1px solid rgba(255,255,255,.1); background: rgba(7,11,22,.95);">
+    <div style="display: flex; align-items: center; gap: 10px; padding: 20px;">
+      <span style="display: grid; place-items: center; width: 36px; height: 36px; border-radius: 13.6px; background: linear-gradient(to bottom right, #7c8cff, #c084fc); color: #070b16;">
+        <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M3 17c3-6 6-9 9-9s6 3 9 9"></path>
+          <circle cx="12" cy="8" r="1.7" fill="currentColor" stroke="none"></circle>
+        </svg>
+      </span>
+      <div>
+        <p style="margin: 0; font-size: 14.5px; font-weight: 800; line-height: 1.2; color: #fff;">SETU</p>
+        <p style="margin: 0; font-size: 10.5px; color: #64748b;">Sanctuary</p>
+      </div>
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 4px; padding: 0 12px;">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+        <a href="#" style="{{ item.style }}">
+          <span style="width: 16px; text-align: center; font-size: 15px;" aria-hidden="true">{{ item.glyph }}</span>
+          <span style="min-width: 0;">
+            <span style="display: block; font-size: 13px; font-weight: 600;">{{ item.label }}</span>
+            <span style="display: block; font-size: 10.5px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.hint }}</span>
+          </span>
+        </a>
+      </sc-for>
+    </div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,.1); padding: 12px;">
+      <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid rgba(74,222,128,.3); border-radius: 8px; font-size: 11px; font-weight: 600; color: #86efac;">
+        <span style="width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: breathe 2.4s ease-in-out infinite;"></span>
+        Engine ready
+      </div>
+    </div>
+  </nav>
+
+  <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+    <main style="flex: 1; min-height: 0; overflow: hidden;">
+      <div style="display: flex; height: 100%; gap: 16px; padding: 16px;">
+
+        <section aria-label="Conversation" style="width: 400px; flex: none; display: flex; flex-direction: column; min-height: 0; background: rgba(17,24,48,.7); border: 1px solid rgba(255,255,255,.1); border-radius: 18.4px; box-shadow: 0 1px 2px rgba(0,0,0,.28), 0 8px 26px -8px rgba(0,0,0,.5);">
+          <header style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,.1);">
+            <div>
+              <h1 style="margin: 0; font-size: 14px; font-weight: 700; color: #f1f5f9;">Ask anything</h1>
+              <p style="margin: 0; font-size: 11.5px; color: #64748b;">I'll research it and draw you a map</p>
+            </div>
+            <div style="display: flex; gap: 4px;">
+              <button style="min-height: 30px; padding: 0 8px; background: transparent; border: 0; border-radius: 13.6px; font: inherit; font-size: 11px; font-weight: 600; color: #94a3b8; cursor: pointer;">New</button>
+              <button aria-label="Collapse conversation" style="min-height: 30px; padding: 0 8px; background: transparent; border: 0; border-radius: 13.6px; font: inherit; font-size: 14px; font-weight: 600; color: #94a3b8; cursor: pointer;">‹</button>
+            </div>
+          </header>
+
+          <div role="log" style="flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 16px;">
+            <div style="display: flex; justify-content: flex-end;">
+              <div style="max-width: 90%; padding: 10px 14px; background: #7c8cff; border-radius: 18.4px 18.4px 2px 18.4px; font-size: 13px; font-weight: 500; line-height: 1.6; color: #070b16;">How does a transformer neural network work?</div>
+            </div>
+            <div style="display: flex; justify-content: flex-start;">
+              <div style="max-width: 90%; padding: 10px 14px; background: rgba(24,32,62,.7); border: 1px solid rgba(255,255,255,.1); border-radius: 18.4px 18.4px 18.4px 2px; font-size: 13px; line-height: 1.6; color: #e2e8f0;">Here's your map of <strong style="font-weight: 700; color: #fff;">Transformer neural networks</strong>.</div>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,.1);">
+            <button style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(24,32,62,.6); border: 1px solid rgba(255,255,255,.1); border-radius: 999px; font: inherit; font-size: 11.5px; font-weight: 600; color: #cbd5e1; cursor: pointer; text-align: left;">Why did attention beat recurrence?</button>
+            <button style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(24,32,62,.6); border: 1px solid rgba(255,255,255,.1); border-radius: 999px; font: inherit; font-size: 11.5px; font-weight: 600; color: #cbd5e1; cursor: pointer; text-align: left;">Show me a worked example</button>
+          </div>
+
+          <form style="display: flex; gap: 8px; padding: 12px; border-top: 1px solid rgba(255,255,255,.1);">
+            <input placeholder="Ask a follow-up, or name a new topic…" aria-label="Your message" style="width: 100%; padding: 10px 16px; background: rgba(17,24,48,.8); border: 1px solid rgba(255,255,255,.1); border-radius: 13.6px; font: inherit; font-size: 14px; color: #f1f5f9;">
+            <button type="submit" aria-label="Send" style="display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 16px; background: #7c8cff; border: 0; border-radius: 13.6px; font: inherit; font-size: 14px; font-weight: 600; color: #070b16; cursor: pointer;">↑</button>
+          </form>
+        </section>
+
+        <section aria-label="Mind map" style="flex: 1; min-width: 0; display: flex; flex-direction: column; min-height: 0; gap: 12px;">
+          <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: rgba(17,24,48,.7); border: 1px solid rgba(255,255,255,.1); border-radius: 18.4px; box-shadow: 0 1px 2px rgba(0,0,0,.28), 0 8px 26px -8px rgba(0,0,0,.5);">
+            <div style="flex: 1 1 240px; min-width: 0;">
+              <h2 style="margin: 0; font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Transformer neural networks</h2>
+              <p style="margin: 0; font-size: 12px; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Attention replaces recurrence — the whole sequence, considered at once.</p>
+            </div>
+            <div style="display: flex; flex: none; flex-wrap: wrap; align-items: center; gap: 6px;">
+              <span style="display: inline-flex; align-items: center; padding: 4px 12px; background: rgba(24,32,62,.6); border: 1px solid rgba(255,255,255,.1); border-radius: 999px; font-size: 11.5px; font-weight: 600; color: #cbd5e1;">14 topics</span>
+              <span style="display: inline-flex; align-items: center; padding: 4px 12px; background: rgba(24,32,62,.6); border: 1px solid rgba(255,255,255,.1); border-radius: 999px; font-size: 11.5px; font-weight: 600; color: #cbd5e1;">model knowledge</span>
+              <button style="display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; background: rgba(24,32,62,.6); border: 1px solid rgba(255,255,255,.1); border-radius: 13.6px; font: inherit; font-size: 12px; font-weight: 600; color: #e2e8f0; cursor: pointer;">Export</button>
+            </div>
+          </header>
+
+          <div style="flex: 1 1 280px; min-height: 280px; position: relative; overflow: hidden; background: rgba(7,11,22,.6); border: 1px solid rgba(255,255,255,.1); border-radius: 18.4px;">
+            <div aria-hidden="true" style="position: absolute; inset: 0; opacity: .35; pointer-events: none; background-image: radial-gradient(circle, rgba(255,255,255,.14) 1px, transparent 1px); background-size: 22px 22px; background-position: 24px 20px;"></div>
+
+            <div style="{{ canvasStyle }}">
+              <svg width="{{ canvasW }}" height="{{ canvasH }}" style="position: absolute; inset: 0; overflow: visible; pointer-events: none;" aria-hidden="true">
+                <sc-for list="{{ edges }}" as="edge" hint-placeholder-count="4">
+                  <path d="{{ edge.d }}" fill="none" stroke="{{ edge.color }}" stroke-opacity="0.45" stroke-width="{{ edge.width }}" stroke-linecap="round"></path>
+                </sc-for>
+              </svg>
+
+              <sc-for list="{{ nodes }}" as="node" hint-placeholder-count="6">
+                <div style="{{ node.wrapStyle }}">
+                  <button style="{{ node.style }}">
+                    <span style="{{ node.labelStyle }}">{{ node.label }}</span>
+                    <span style="{{ node.detailStyle }}">{{ node.detail }}</span>
+                  </button>
+                  <sc-if value="{{ node.hasToggle }}" hint-placeholder-val="{{ false }}">
+                    <button aria-label="Hide subtopics" style="position: absolute; right: -12px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 24px; height: 24px; background: #18203e; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; font: inherit; font-size: 11px; font-weight: 800; color: #e2e8f0; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,.28);">−</button>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="position: absolute; right: 12px; top: 12px; display: flex; flex-direction: column; gap: 4px; padding: 4px; background: rgba(17,24,48,.9); border: 1px solid rgba(255,255,255,.1); border-radius: 13.6px; box-shadow: 0 1px 2px rgba(0,0,0,.28);">
+              <button aria-label="Zoom in" style="display: grid; place-items: center; width: 32px; height: 32px; background: none; border: 0; border-radius: 8px; font: inherit; font-size: 14px; font-weight: 700; color: #cbd5e1; cursor: pointer;">+</button>
+              <span style="text-align: center; font-size: 10px; font-weight: 700; color: #64748b;">68%</span>
+              <button aria-label="Zoom out" style="display: grid; place-items: center; width: 32px; height: 32px; background: none; border: 0; border-radius: 8px; font: inherit; font-size: 14px; font-weight: 700; color: #cbd5e1; cursor: pointer;">−</button>
+              <span style="height: 1px; background: rgba(255,255,255,.1); margin: 2px 0;"></span>
+              <button aria-label="Fit to screen" style="display: grid; place-items: center; width: 32px; height: 32px; background: none; border: 0; border-radius: 8px; font: inherit; font-size: 14px; font-weight: 700; color: #cbd5e1; cursor: pointer;">⤢</button>
+              <button aria-label="Collapse all" style="display: grid; place-items: center; width: 32px; height: 32px; background: none; border: 0; border-radius: 8px; font: inherit; font-size: 14px; font-weight: 700; color: #cbd5e1; cursor: pointer;">⊟</button>
+              <button aria-label="Expand all" style="display: grid; place-items: center; width: 32px; height: 32px; background: none; border: 0; border-radius: 8px; font: inherit; font-size: 14px; font-weight: 700; color: #cbd5e1; cursor: pointer;">⊞</button>
+            </div>
+
+            <p style="position: absolute; left: 16px; bottom: 12px; margin: 0; font-size: 11px; color: #64748b; pointer-events: none;">Drag to pan · Ctrl+scroll to zoom · Click a topic to go deeper</p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440, &quot;height&quot;: 900}}">
+const BRANCH_COLORS = ['#7c8cff', '#4ade80', '#fbbf24', '#f472b6', '#38bdf8', '#c084fc'];
+const WIDTH = [268, 236, 214], H_GAP = 78, V_GAP = 18;
+
+const ROOT = {
+  id: 'r', label: 'Transformer', detail: 'The architecture',
+  children: [
+    { id: 'a', label: 'Self-attention', detail: 'Every word weighs every other', children: [
+      { id: 'a1', label: 'Query, key, value', detail: 'Three views of one word' },
+      { id: 'a2', label: 'Multi-head attention', detail: 'Several readings at once' },
+      { id: 'a3', label: 'Attention scores', detail: 'The weights you can look at' } ] },
+    { id: 'b', label: 'Positional encoding', detail: 'Order, without reading in order', children: [
+      { id: 'b1', label: 'Sinusoidal vs learned', detail: 'Two ways to mark position' },
+      { id: 'b2', label: 'Why order matters', detail: 'Dog bites man' } ] },
+    { id: 'c', label: 'Feed-forward layers', detail: 'Where the thinking is stored', children: [
+      { id: 'c1', label: 'Two layers, one bulge', detail: 'Wide in the middle' },
+      { id: 'c2', label: 'Where facts live', detail: 'Knowledge as weights' } ] },
+    { id: 'd', label: 'Training at scale', detail: 'Why it needed the whole internet', children: [
+      { id: 'd1', label: 'Next-token prediction', detail: 'One objective, endlessly' },
+      { id: 'd2', label: 'Fine-tuning after', detail: 'Aiming a general model' } ] }
+  ]
+};
+
+const widthFor = (d) => WIDTH[Math.min(d, WIDTH.length - 1)];
+
+function heightFor(node, depth) {
+  const width = widthFor(depth);
+  const cpl = Math.floor(width / 7.1);
+  const labelLines = Math.max(1, Math.ceil((node.label || '').length / (cpl * 0.86)));
+  const detailLines = node.detail ? Math.ceil(node.detail.length / cpl) : 0;
+  return Math.max(56, 26 + labelLines * 21 + (detailLines ? detailLines * 17 + 6 : 0));
+}
+
+class Component extends DCLogic {
+  renderVals() {
+    const nodes = [], edges = [];
+
+    const measure = (n, d) => {
+      const own = heightFor(n, d);
+      const kids = n.children || [];
+      n._own = own;
+      if (!kids.length) { n._span = own; return own; }
+      const span = kids.reduce((s, c, i) => s + measure(c, d + 1) + (i ? V_GAP : 0), 0);
+      n._span = Math.max(own, span);
+      return n._span;
+    };
+
+    const place = (n, d, x, spanTop, branch) => {
+      const w = widthFor(d), h = n._own;
+      const y = spanTop + (n._span - h) / 2;
+      const rec = { id: n.id, label: n.label, detail: n.detail, depth: d, x, y, w, h, branch, kids: (n.children || []).length };
+      nodes.push(rec);
+      const kids = n.children || [];
+      if (!kids.length) return rec;
+      const childX = x + w + H_GAP;
+      let cursor = spanTop + (n._span - kids.reduce((s, c, i) => s + c._span + (i ? V_GAP : 0), 0)) / 2;
+      kids.forEach((child, i) => {
+        const b = d === 0 ? i % 6 : branch;
+        const cp = place(child, d + 1, childX, cursor, b);
+        const from = { x: x + w, y: y + h / 2 }, to = { x: childX, y: cp.y + cp.h / 2 };
+        const dx = Math.max(28, (to.x - from.x) * 0.55);
+        edges.push({
+          key: n.id + '-' + child.id,
+          d: `M ${from.x},${from.y} C ${from.x + dx},${from.y} ${to.x - dx},${to.y} ${to.x},${to.y}`,
+          color: BRANCH_COLORS[b], width: d === 0 ? 2.2 : 1.5
+        });
+        cursor += child._span + V_GAP;
+      });
+      return rec;
+    };
+
+    const totalHeight = measure(ROOT, 0);
+    place(ROOT, 0, 0, 0, 0);
+    const w = Math.max(...nodes.map((n) => n.x + n.w));
+    const scale = 0.68;
+
+    return {
+      canvasW: w, canvasH: totalHeight,
+      canvasStyle: `position: absolute; left: 24px; top: 20px; width: ${w}px; height: ${totalHeight}px; transform: scale(${scale}); transform-origin: top left;`,
+      edges,
+      nodes: nodes.map((n) => {
+        const isRoot = n.depth === 0;
+        const color = BRANCH_COLORS[n.branch % 6];
+        return {
+          key: n.id, label: n.label, detail: n.detail, hasToggle: n.kids > 0,
+          wrapStyle: `position: absolute; left: ${n.x}px; top: ${n.y}px; width: ${n.w}px; height: ${n.h}px;`,
+          style: `width: 100%; height: 100%; display: block; padding: 10px 14px; text-align: left; border-radius: 13.6px; font: inherit; cursor: pointer; ${
+            isRoot
+              ? 'background: linear-gradient(to bottom right, rgba(124,140,255,.25), rgba(124,140,255,.05)); border: 1px solid rgba(124,140,255,.6); box-shadow: 0 0 0 1px rgba(124,140,255,.4), 0 0 26px -6px rgba(124,140,255,.5);'
+              : `background: rgba(17,24,48,.9); border: 1px solid rgba(255,255,255,.1); border-left: 3px solid ${color};`
+          }`,
+          labelStyle: `display: block; font-weight: 700; line-height: 1.4; ${isRoot ? 'font-size: 15.5px; color: #fff;' : 'font-size: 13.5px; color: #f1f5f9;'}`,
+          detailStyle: 'display: block; margin-top: 4px; font-size: 11.5px; line-height: 1.6; color: #94a3b8;'
+        };
+      }),
+      navItems: [
+        ['Mind Map', '◈', 'Ask anything, get a map', true],
+        ['Library', '▤', 'Your saved maps', false],
+        ['Modes', '◐', 'Seven cognitive tools', false],
+        ['Settings', '⚙', 'Reading preferences', false]
+      ].map(([label, glyph, hint, active]) => ({
+        label, glyph, hint,
+        style: `display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 13.6px; text-decoration: none; ${
+          active
+            ? 'background: rgba(124,140,255,.15); color: #fff; box-shadow: inset 0 0 0 1px rgba(124,140,255,.4);'
+            : 'color: #94a3b8;'
+        }`
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

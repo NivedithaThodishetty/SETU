@@ -1,0 +1,1089 @@
+/* SETU Lens — Options Page (Broadsheet Design System)
+   ==================================================
+   Mirrors the Sanctuary Settings screen layout and styling.
+   Near-black Source Serif 4 on paper white ground, cyan interactive
+   accents, magenta privacy kicker, and near-square radii.
+*/
+
+:root {
+  --bg: #f3f2f2;
+  --bg-soft: #eae9e9;
+  --surface: #ffffff;
+  --border: rgba(32, 30, 29, 0.16);
+  --text: #201e1d;
+  --dim: rgba(32, 30, 29, 0.64);
+  
+  --accent: #0088b0;
+  --accent-100: #e0f4fa;
+  --accent-200: #bce7f4;
+  --accent-300: #8cd3eb;
+  --accent-600: #007599;
+  --accent-700: #00607d;
+  --accent-900: #003648;
+  --on-accent: #f3f2f2;
+  
+  --accent-2: #d6006c;
+  --accent-2-100: #fce4ef;
+  --accent-2-700: #a30052;
+  --warn: #edbb00;
+  --danger: #d6006c;
+
+  /* `--radius-md` is the name the design system and the popup both use, and
+     twelve declarations in this file already reached for it. Until it was
+     defined here every one of them was invalid at computed-value time and
+     silently fell back to square corners. */
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius: 3px;
+  --radius-lg: 5px;
+
+  /* Spacing scale, 1.25x density — matches frontend/src/index.css. */
+  --space-1: 5px;
+  --space-2: 10px;
+  --space-3: 15px;
+  --space-4: 20px;
+  --space-5: 25px;
+  --space-6: 30px;
+
+  --font-heading: "Source Serif 4", Georgia, serif;
+  --font-body: "Source Serif 4", Georgia, serif;
+  /* Shared alias, so a block moved between the popup and this page keeps its
+     typeface instead of silently dropping to the browser default. */
+  --font: "Source Serif 4", Georgia, serif;
+
+  --shadow-sm: 0 1px 2px rgba(32, 30, 29, 0.06);
+  --shadow-md: 0 2px 6px rgba(32, 30, 29, 0.08);
+  --shadow-lg: 0 8px 24px rgba(32, 30, 29, 0.10);
+
+  color-scheme: light;
+}
+
+/* Dark is an explicit choice, resolved in JS and set as data-appearance on
+   <html>. The Sanctuary web app is light by default and only darkens when
+   someone picks the velvet theme; matching that means a dark OS cannot
+   silently override the reading surface the user chose. */
+:root[data-appearance="dark"] {
+  --bg: #18181a;
+  --bg-soft: #222226;
+  --surface: #222226;
+  --border: rgba(243, 242, 242, 0.15);
+  --text: #f3f2f2;
+  --dim: rgba(243, 242, 242, 0.66);
+  
+  --accent: #38bdf8;
+  --accent-100: rgba(56, 189, 248, 0.15);
+  --accent-200: rgba(56, 189, 248, 0.25);
+  --accent-300: #0284c7;
+  --accent-600: #7dd3fc;
+  --accent-700: #7dd3fc;
+  --accent-900: #bae6fd;
+  --on-accent: #18181a;
+
+  --accent-2: #f43f5e;
+  --accent-2-100: rgba(244, 63, 94, 0.15);
+  --accent-2-700: #fb7185;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.55);
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding: 44px 20px 96px;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+button, a {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  text-decoration: none;
+}
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 2px !important;
+}
+
+/* ==========================================================================
+   MASTHEAD
+   ========================================================================== */
+
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.masthead-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mark {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.mark svg {
+  width: 22px;
+  height: 22px;
+}
+
+h1 {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--dim);
+}
+
+.masthead-actions {
+  display: flex;
+  align-items: center;
+}
+
+/* ==========================================================================
+   CARDS & SECTIONS
+   ========================================================================== */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3.5px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: 24px 26px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-head {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 8px;
+}
+
+.card-kicker {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-700);
+}
+
+.kicker-magenta {
+  color: var(--accent-2-700);
+}
+
+.card h2 {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.lede {
+  font-size: 14px;
+  color: var(--dim);
+  margin-bottom: 20px;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+/* ==========================================================================
+   FIELDS & INPUTS
+   ========================================================================== */
+
+.field {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.field-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 7px;
+  color: var(--text);
+}
+
+.field-label b {
+  color: var(--accent-700);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+input[type="text"],
+input[type="url"] {
+  flex: 1;
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: var(--font-body);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-100);
+}
+
+/* Sliders Grid */
+.sliders-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 24px;
+  margin-bottom: 22px;
+}
+
+@media (max-width: 600px) {
+  .sliders-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--bg-soft);
+  appearance: none;
+  outline: none;
+  border: 1px solid var(--border);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--surface);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.1s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.help {
+  display: block;
+  font-size: 12px;
+  color: var(--dim);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
+  background: var(--bg-soft);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 9px 16px;
+  background: var(--accent);
+  color: var(--on-accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.btn:hover {
+  background: var(--accent-600);
+  border-color: var(--accent-600);
+  color: var(--on-accent);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn.ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent-700);
+  background: var(--accent-100);
+}
+
+.btn.danger-ghost {
+  background: transparent;
+  color: var(--accent-2-700);
+  border-color: rgba(214, 0, 108, 0.3);
+}
+
+.btn.danger-ghost:hover {
+  background: var(--accent-2-100);
+  border-color: var(--accent-2);
+  color: var(--accent-2-700);
+}
+
+/* ==========================================================================
+   ENGINE HEALTH STATUS
+   ========================================================================== */
+
+.status {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 6px;
+  background: var(--dim);
+  flex-shrink: 0;
+}
+
+.status-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.status-body strong {
+  display: block;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.status-detail {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 12px;
+  color: var(--dim);
+  margin-top: 4px;
+}
+
+.status-detail li {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status[data-state="ok"] {
+  border-color: var(--accent-300);
+  background: var(--accent-100);
+}
+
+.status[data-state="ok"] .status-dot {
+  background: var(--accent);
+  animation: setu-breathe 2.4s ease-in-out infinite;
+}
+
+.status[data-state="waking"] {
+  border-color: var(--accent-300);
+  background: var(--accent-100);
+}
+
+.status[data-state="waking"] .status-dot {
+  background: var(--accent);
+  animation: setu-breathe 1.1s ease-in-out infinite;
+}
+
+.status[data-state="warn"] {
+  border-color: var(--warn);
+  background: rgba(237, 187, 0, 0.12);
+}
+
+.status[data-state="warn"] .status-dot {
+  background: var(--warn);
+}
+
+.status[data-state="down"] {
+  border-color: var(--accent-2);
+  background: var(--accent-2-100);
+}
+
+.status[data-state="down"] .status-dot {
+  background: var(--accent-2);
+}
+
+/* ==========================================================================
+   LIVE PREVIEW BOX
+   ========================================================================== */
+
+.preview-wrap {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.preview-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-700);
+}
+
+.preview {
+  padding: 18px 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-300);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  color: var(--text);
+  transition: all 0.15s ease;
+}
+
+/* ==========================================================================
+   SHORTCUTS LIST
+   ========================================================================== */
+
+.keys {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.keys li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+}
+
+kbd {
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--accent-700);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ==========================================================================
+   PRIVACY FACTS
+   ========================================================================== */
+
+.facts {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.facts li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.facts strong {
+  color: var(--text);
+  font-size: 13.5px;
+}
+
+.facts span {
+  color: var(--dim);
+}
+
+/* ==========================================================================
+   DIAGNOSTICS
+   ========================================================================== */
+
+.diag {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+  .diag {
+    grid-template-columns: 1fr;
+  }
+}
+
+.diag-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+}
+
+.diag-item dt {
+  color: var(--dim);
+}
+
+.diag-item dd {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.diag-actions {
+  display: flex;
+}
+
+/* ==========================================================================
+   TOAST
+   ========================================================================== */
+
+.toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  padding: 10px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3.5px solid var(--accent);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 1000;
+}
+
+.toast[data-show="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast[data-tone="success"] {
+  border-left-color: var(--accent);
+  background: var(--accent-100);
+  color: var(--accent-900);
+}
+
+.toast[data-tone="error"] {
+  border-left-color: var(--accent-2);
+  background: var(--accent-2-100);
+  color: var(--accent-2-700);
+}
+
+@keyframes setu-breathe {
+  0%, 100% { opacity: 0.35; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* ==========================================================================
+   CHIP GROUP — the selected-option style shared with onboarding and the popup
+   ========================================================================== */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  padding: 7px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent-700);
+}
+
+.chip[aria-checked="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Read-aloud voice picker                                                */
+/* ---------------------------------------------------------------------- */
+
+/*
+ * Voice, language, and a button to hear the pair. They belong on one line
+ * because they are one decision: a Bulbul speaker and a language code are
+ * only meaningful together, and a mismatched pair is what a reader hears as
+ * "the voice is broken".
+ */
+.voice-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) auto;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+@media (max-width: 620px) {
+  .voice-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.voice-grid select {
+  width: 100%;
+  min-width: 0;
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.voice-grid select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.voice-grid select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.voice-grid .btn {
+  white-space: nowrap;
+}
+
+.voice-grid .btn[data-busy="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   YOUR DETAILS — the profile the Copilot fills forms from
+   ==========================================================================
+   Seventy-odd inputs is a lot of page for an audience that finds long forms
+   hard, which would be an unkind way to ship a feature whose whole point is
+   making long forms easier. So it is collapsed into nine named groups, each
+   carrying its own filled-count, and a search box that filters the lot — the
+   reader opens the one part they came for and never sees the other eight.
+   ========================================================================== */
+
+.notice {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 13px 16px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--dim);
+  border-radius: var(--radius-md);
+  background: var(--bg-soft);
+}
+
+.notice[data-show="false"] {
+  display: none;
+}
+
+.notice[data-tone="warn"] {
+  border-left-color: var(--warn);
+}
+
+.notice > span[data-icon] {
+  color: var(--warn);
+  flex-shrink: 0;
+  line-height: 0;
+  margin-top: 2px;
+}
+
+.notice div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.notice strong {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.notice span {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--dim);
+}
+
+.profile-meter {
+  margin-bottom: 20px;
+}
+
+.profile-meter-head {
+  margin-bottom: 2px;
+}
+
+.meter-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.profile-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pgroup {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.pgroup[hidden] {
+  display: none;
+}
+
+.pgroup[data-sensitive="true"] {
+  border-left: 3px solid var(--accent-2);
+}
+
+.pgroup > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14.5px;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  color: var(--text);
+  list-style: none;
+  user-select: none;
+}
+
+.pgroup > summary::-webkit-details-marker {
+  display: none;
+}
+
+.pgroup > summary:hover {
+  background: var(--bg-soft);
+}
+
+.pgroup > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.pgroup-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.pgroup-body {
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--border);
+}
+
+.pgroup-hint {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--dim);
+  margin: 12px 0 14px;
+}
+
+.pgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px 18px;
+}
+
+.pfield {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.pfield[hidden] {
+  display: none;
+}
+
+.pfield.wide {
+  grid-column: 1 / -1;
+}
+
+.pfield > span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.pfield small {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--dim);
+}
+
+.pfield input[type="text"],
+.pfield input[type="email"],
+.pfield input[type="tel"],
+.pfield input[type="url"],
+.pfield input[type="date"],
+.pfield select,
+.pfield textarea {
+  /* The base `input[type=text] { flex: 1 }` exists for the engine-URL row,
+     where the input shares a line with a button. Inherited here it made every
+     input a growing item in a column flex box, so a field whose neighbour in
+     the grid had a hint line underneath grew to twice the height of the one
+     beside it. Reset, not overridden by width alone. */
+  flex: 0 0 auto;
+  width: 100%;
+  padding: 9px 12px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-family: var(--font-body);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pfield textarea {
+  min-height: 68px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.pfield input:focus,
+.pfield select:focus,
+.pfield textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-100);
+}
+
+.pfield.check {
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  grid-column: 1 / -1;
+}
+
+.pfield.check input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+
+/* What SETU works out for itself. Shown because a reader checking their
+   details before a submission wants to see the exact string that will land in
+   the box, not the three fields it was assembled from. */
+.pderived {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+
+/* Groups with nothing derived — the IDs, the emergency contact — were still
+   drawing the dashed rule and its padding above nothing at all. */
+.pderived:empty {
+  display: none;
+}
+
+.pderived-label {
+  width: 100%;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dim);
+  margin-bottom: 1px;
+}
+
+.pchip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  max-width: 100%;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-soft);
+  font-size: 12px;
+  color: var(--text);
+}
+
+.pchip b {
+  font-weight: 600;
+  color: var(--dim);
+  /* Without this the label wraps to three lines to make room for a long
+     address and the pill turns into a lopsided box. The value is the part
+     allowed to be cut short, not the name of the thing. */
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.pchip span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-empty {
+  padding: 16px;
+  font-size: 13px;
+  color: var(--dim);
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+}
+
+.profile-empty[hidden] {
+  display: none;
+}
+
+input[type="search"] {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: var(--font-body);
+}
+
+input[type="search"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-100);
+}

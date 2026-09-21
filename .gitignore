@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# package-lock.json is deliberately NOT ignored.
+#
+# It used to be, which meant builds were not reproducible: a transitive
+# dependency could change between the last rehearsal and the demo, and nothing
+# in the repository pinned it. Committing the lockfiles is the whole fix, and
+# .gitattributes collapses them in diffs so a dependency bump does not bury the
+# change that actually needs review.
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+.claude
+
+# Environment variables
+# Ignore all .env files across all directories, keeping only .env.example templates
+.env
+.env.*
+.env.local
+**/.env
+**/.env.*
+**/.env.local
+!**/.env.example
+!**/.env.local.example
+
+# System and logs
+.DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Antigravity / IDE artifacts
+.idea/
+.vscode/
+*.swp
+*.swo
+scratch/
+
+
+# Extension signing keys — never commit these
+*.pem

@@ -1,0 +1,97 @@
+{
+  "expo": {
+    "name": "SETU Sanctuary",
+    "slug": "setu",
+    "version": "2.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "setu",
+    "userInterfaceStyle": "light",
+    "primaryColor": "#0088b0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.setu.sanctuary",
+      "buildNumber": "2",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "SETU records short clips so you can speak instead of type, and turns them into text.",
+        "NSCameraUsageDescription": "SETU uses the camera to read printed pages, letters and notices so they can be simplified or read aloud.",
+        "NSPhotoLibraryUsageDescription": "SETU reads text out of photos and screenshots you choose, so they can be simplified or read aloud."
+      }
+    },
+    "android": {
+      "package": "com.setu.sanctuary",
+      "versionCode": 2,
+      "adaptiveIcon": {
+        "backgroundColor": "#f3f2f2",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.INTERNET"
+      ],
+      "blockedPermissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 180,
+          "resizeMode": "contain",
+          "backgroundColor": "#f3f2f2",
+          "dark": {
+            "backgroundColor": "#18181a"
+          }
+        }
+      ],
+      "expo-font",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "SETU uses the camera to read printed pages, letters and notices so they can be simplified or read aloud."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "SETU reads text out of photos and screenshots you choose, so they can be simplified or read aloud."
+        }
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "SETU records short clips so you can speak instead of type, and turns them into text."
+        }
+      ],
+      "expo-sharing",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "backgroundColor": "#f3f2f2",
+          "resizeMode": "contain",
+          "imageWidth": 200
+        }
+      ],
+      "expo-asset"
+    ],
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "buildProfile": "development",
+      "eas": {
+        "projectId": "033c4f50-4e4c-4d22-82d4-334392d752e7"
+      }
+    },
+    "owner": "sairam777"
+  }
+}

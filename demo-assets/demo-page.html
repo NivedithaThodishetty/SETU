@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuroRead Demo - Sample Web Article</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Georgia, serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      min-height: 100vh;
+    }
+    
+    /* Header */
+    header {
+      background: #1a1a2e;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .ad-banner {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+    
+    .ad-banner a {
+      color: white;
+      text-decoration: underline;
+    }
+    
+    /* Navigation */
+    nav {
+      background: #f8f9fa;
+      padding: 15px 20px;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+    }
+    
+    nav a {
+      color: #495057;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    
+    nav a:hover {
+      color: #212529;
+    }
+    
+    /* Sidebar */
+    .content-wrapper {
+      display: flex;
+    }
+    
+    .sidebar {
+      width: 250px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-right: 1px solid #e9ecef;
+    }
+    
+    .sidebar-widget {
+      background: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .sidebar-widget h3 {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #495057;
+    }
+    
+    .sidebar-widget ul {
+      list-style: none;
+    }
+    
+    .sidebar-widget li {
+      padding: 8px 0;
+      border-bottom: 1px solid #e9ecef;
+      font-size: 13px;
+    }
+    
+    .sidebar-widget li:last-child {
+      border-bottom: none;
+    }
+    
+    /* Main Content */
+    main {
+      flex: 1;
+      padding: 40px;
+    }
+    
+    article {
+      max-width: 100%;
+    }
+    
+    .article-header {
+      margin-bottom: 30px;
+    }
+    
+    .category {
+      color: #6366f1;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    
+    h1 {
+      font-size: 36px;
+      line-height: 1.2;
+      margin-bottom: 15px;
+      color: #1a1a2e;
+    }
+    
+    .meta {
+      color: #6c757d;
+      font-size: 14px;
+    }
+    
+    .author {
+      color: #495057;
+      font-weight: 600;
+    }
+    
+    .featured-image {
+      width: 100%;
+      height: 300px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 8px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+    }
+    
+    h2 {
+      font-size: 24px;
+      margin: 30px 0 15px;
+      color: #1a1a2e;
+    }
+    
+    p {
+      margin-bottom: 20px;
+      font-size: 18px;
+      line-height: 1.8;
+      color: #444;
+    }
+    
+    blockquote {
+      border-left: 4px solid #6366f1;
+      padding-left: 20px;
+      margin: 25px 0;
+      font-style: italic;
+      color: #555;
+      font-size: 20px;
+    }
+    
+    ul, ol {
+      margin: 20px 0;
+      padding-left: 30px;
+    }
+    
+    li {
+      margin-bottom: 10px;
+      font-size: 17px;
+    }
+    
+    /* Inline Ad */
+    .inline-ad {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .inline-ad h4 {
+      color: #856404;
+      margin-bottom: 10px;
+    }
+    
+    .inline-ad p {
+      color: #856404;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    
+    .inline-ad button {
+      background: #ffc107;
+      color: #212529;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    
+    /* Comments Section */
+    .comments {
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 2px solid #e9ecef;
+    }
+    
+    .comments h3 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .comment {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    .comment-avatar {
+      width: 50px;
+      height: 50px;
+      background: #6366f1;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    
+    .comment-content h4 {
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+    
+    .comment-content .time {
+      font-size: 12px;
+      color: #6c757d;
+      margin-bottom: 10px;
+    }
+    
+    .comment-content p {
+      font-size: 15px;
+      margin-bottom: 0;
+    }
+    
+    /* Footer */
+    footer {
+      background: #1a1a2e;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    
+    footer p {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+    }
+    
+    /* Cookie Banner */
+    .cookie-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #1a1a2e;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      z-index: 1000;
+    }
+    
+    .cookie-banner p {
+      color: rgba(255,255,255,0.8);
+      font-size: 14px;
+      margin: 0;
+    }
+    
+    .cookie-banner button {
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    /* Related Posts */
+    .related-posts {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid #e9ecef;
+    }
+    
+    .related-posts h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+    
+    .related-card {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    
+    .related-card h4 {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    
+    .related-card p {
+      font-size: 12px;
+      color: #6c757d;
+      margin-bottom: 0;
+    }
+    
+    /* Social Share */
+    .social-share {
+      display: flex;
+      gap: 10px;
+      margin: 30px 0;
+    }
+    
+    .social-share button {
+      padding: 10px 20px;
+      border: 1px solid #dee2e6;
+      background: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .social-share button:hover {
+      background: #f8f9fa;
+    }
+    
+    /* Newsletter */
+    .newsletter {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin: 30px 0;
+      text-align: center;
+    }
+    
+    .newsletter h3 {
+      margin-bottom: 10px;
+    }
+    
+    .newsletter p {
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      gap: 10px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    .newsletter-form input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    
+    .newsletter-form button {
+      background: #1a1a2e;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Ad Banner -->
+  <div class="ad-banner">
+    <strong>Special Offer!</strong> Get 50% off our premium subscription. <a href="#">Learn more &rarr;</a>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <h2>Daily News</h2>
+    <p>Your source for accessible digital content</p>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Technology</a></li>
+      <li><a href="#">Science</a></li>
+      <li><a href="#">Health</a></li>
+      <li><a href="#">Lifestyle</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="content-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-widget">
+        <h3>Trending</h3>
+        <ul>
+          <li>AI Revolution in 2026</li>
+          <li>Digital Accessibility Breakthroughs</li>
+          <li>Cognitive Neurodiversity Tools</li>
+          <li>Health &amp; Wellness Research</li>
+          <li>Tech Gadget Reviews</li>
+        </ul>
+      </div>
+      
+      <div class="sidebar-widget">
+        <h3>Newsletter</h3>
+        <p style="font-size: 13px; color: #6c757d; margin-bottom: 10px;">Get the latest news delivered to your inbox!</p>
+        <button style="width: 100%; padding: 10px; background: #6366f1; color: white; border: none; border-radius: 5px; cursor: pointer;">Subscribe</button>
+      </div>
+      
+      <div class="sidebar-widget">
+        <h3>Tags</h3>
+        <p style="font-size: 13px; color: #6366f1;">#technology #accessibility #dyslexia #adhd #neurodiversity</p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+      <article>
+        <div class="article-header">
+          <div class="category">Technology</div>
+          <h1>The Future of Web Accessibility: Making the Internet Work for Everyone</h1>
+          <div class="meta">
+            By <span class="author">Sarah Johnson</span> &bull; Published March 2026 &bull; 8 min read
+          </div>
+        </div>
+
+        <div class="featured-image">
+          Featured Article Banner
+        </div>
+
+        <p>
+          The internet has become an essential part of our daily lives. We use it for work, education, 
+          entertainment, and staying connected with others. But for millions of people with learning 
+          differences like ADHD and Dyslexia, the web can be a challenging place to navigate.
+        </p>
+
+        <p>
+          Standard fonts and dense layouts create what researchers call "reading fatigue" - a mental 
+          exhaustion that occurs when the brain has to work overtime just to process basic information. 
+          This is particularly true for people with ADHD, who may find their attention drifting, or those 
+          with Dyslexia, who struggle with traditional text formatting.
+        </p>
+
+        <blockquote>
+          "Information shouldn't be a chore. Everyone deserves equal access to the wealth of knowledge 
+          available online."
+        </blockquote>
+
+        <h2>The Scale of the Challenge</h2>
+
+        <p>
+          Approximately 1 in 5 people worldwide have some form of learning difference. That's over 
+          1.5 billion people who face daily barriers when accessing digital content. Yet, an estimated 
+          70% of websites have detectable accessibility issues.
+        </p>
+
+        <p>
+          The impact extends beyond mere inconvenience. For students, inaccessible content can mean 
+          lower grades and limited educational opportunities. For professionals, it can mean career 
+          limitations. For everyone, it means missing out on the full potential of what the internet 
+          has to offer.
+        </p>
+
+        <!-- Inline Ad -->
+        <div class="inline-ad">
+          <h4>Learn Web Accessibility</h4>
+          <p>Master the skills to build accessible websites. Enroll now and get 30% off!</p>
+          <button>Get Started</button>
+        </div>
+
+        <h2>What Makes Content Accessible?</h2>
+
+        <p>
+          Accessible web design isn't just about following guidelines - it's about understanding how 
+          different people interact with digital content. Here are some key principles:
+        </p>
+
+        <ul>
+          <li><strong>Clear Typography:</strong> Using fonts that are easy to read, with adequate spacing between letters, words, and lines.</li>
+          <li><strong>Visual Hierarchy:</strong> Organizing content in a way that guides the reader's eye naturally through the material.</li>
+          <li><strong>Reduced Distractions:</strong> Minimizing visual clutter that can break concentration.</li>
+          <li><strong>Multiple Formats:</strong> Offering content in various formats - text, audio, video - to suit different preferences.</li>
+          <li><strong>User Control:</strong> Allowing readers to customize their experience based on their needs.</li>
+        </ul>
+
+        <h2>Innovative Solutions</h2>
+
+        <p>
+          The good news is that technology is catching up. New tools and techniques are emerging that 
+          make it easier than ever to create accessible content:
+        </p>
+
+        <ol>
+          <li><strong>Bionic Reading:</strong> A technique that bolds the first half of words, creating visual anchor points that help guide the eye through text.</li>
+          <li><strong>AI-Powered Summarization:</strong> Tools that can condense long articles into key points, making information more digestible.</li>
+          <li><strong>Eye Tracking:</strong> Technology that follows where you're looking and can automatically scroll or highlight content accordingly.</li>
+          <li><strong>Text-to-Speech:</strong> Advanced voice synthesis that can read content aloud while highlighting words as they're spoken.</li>
+        </ol>
+
+        <h2>The Business Case for Accessibility</h2>
+
+        <p>
+          Beyond the moral imperative, there's a strong business case for web accessibility. Companies 
+          that prioritize inclusive design often see:
+        </p>
+
+        <ul>
+          <li>Increased user engagement and retention</li>
+          <li>Better SEO rankings (search engines favor accessible sites)</li>
+          <li>Reduced legal risk (many countries have accessibility requirements)</li>
+          <li>Improved brand reputation</li>
+          <li>Innovation that benefits all users, not just those with disabilities</li>
+        </ul>
+
+        <div class="newsletter">
+          <h3>Stay Updated</h3>
+          <p>Get the latest articles on web accessibility delivered to your inbox.</p>
+          <div class="newsletter-form">
+            <input type="email" placeholder="Enter your email">
+            <button>Subscribe</button>
+          </div>
+        </div>
+
+        <h2>Looking Forward</h2>
+
+        <p>
+          The future of the web is accessible. As awareness grows and technology advances, we're 
+          moving toward a digital landscape where everyone can participate fully. It's not just about 
+          compliance or checking boxes - it's about creating a web that truly works for everyone.
+        </p>
+
+        <!-- Social Share -->
+        <div class="social-share">
+          <button>Share on Facebook</button>
+          <button>Share on Twitter</button>
+          <button>Share on LinkedIn</button>
+          <button>Email</button>
+        </div>
+
+        <!-- Related Posts -->
+        <div class="related-posts">
+          <h3>Related Articles</h3>
+          <div class="related-grid">
+            <div class="related-card">
+              <h4>Understanding ADHD in the Digital Age</h4>
+              <p>How technology can help and hinder focus</p>
+            </div>
+            <div class="related-card">
+              <h4>Dyslexia-Friendly Design Principles</h4>
+              <p>Best practices for readable content</p>
+            </div>
+            <div class="related-card">
+              <h4>The Rise of AI in Accessibility</h4>
+              <p>How artificial intelligence is helping</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comments -->
+        <div class="comments">
+          <h3>Comments (3)</h3>
+          
+          <div class="comment">
+            <div class="comment-avatar">JD</div>
+            <div class="comment-content">
+              <h4>John Doe</h4>
+              <div class="time">2 hours ago</div>
+              <p>This is such an important topic! As someone with ADHD, I really appreciate articles that highlight these issues.</p>
+            </div>
+          </div>
+          
+          <div class="comment">
+            <div class="comment-avatar">AS</div>
+            <div class="comment-content">
+              <h4>Alice Smith</h4>
+              <div class="time">5 hours ago</div>
+              <p>Great read! I'd love to see more practical tips for implementing these accessibility features.</p>
+            </div>
+          </div>
+          
+          <div class="comment">
+            <div class="comment-avatar">MK</div>
+            <div class="comment-content">
+              <h4>Mike Kim</h4>
+              <div class="time">1 day ago</div>
+              <p>Shared this with my team. We're working on making our product more accessible and this was very helpful!</p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Daily News. All rights reserved.</p>
+    <p style="margin-top: 10px;">
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px;">Privacy Policy</a>
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px;">Terms of Service</a>
+      <a href="#" style="color: rgba(255,255,255,0.7); margin: 0 10px;">Contact Us</a>
+    </p>
+  </footer>
+
+  <!-- Cookie Banner -->
+  <div class="cookie-banner">
+    <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
+    <button>Got it!</button>
+  </div>
+
+  <script>
+    document.querySelector('.cookie-banner button').addEventListener('click', function() {
+      document.querySelector('.cookie-banner').style.display = 'none';
+    });
+  </script>
+</body>
+</html>
